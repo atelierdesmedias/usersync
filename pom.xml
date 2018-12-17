@@ -57,4 +57,32 @@
     <module>usersync-api</module>
     <module>usersync-connectors</module>
   </modules>
+
+  <!-- The repository where to get XWiki dependencies -->
+  <repositories>
+    <repository>
+      <id>xwiki-releases</id>
+      <name>XWiki Nexus Releases Repository Proxy</name>
+      <url>http://nexus.xwiki.org/nexus/content/groups/public</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
+  <pluginRepositories>
+    <pluginRepository>
+      <id>xwiki-snapshots</id>
+      <name>XWiki Nexus Plugin Snapshot Repository Proxy</name>
+      <url>http://nexus.xwiki.org/nexus/content/groups/public-snapshots</url>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </pluginRepository>
+  </pluginRepositories>
 </project>
