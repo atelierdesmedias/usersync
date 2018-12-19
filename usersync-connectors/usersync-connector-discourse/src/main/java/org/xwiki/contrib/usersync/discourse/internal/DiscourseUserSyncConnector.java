@@ -29,7 +29,7 @@ import org.xwiki.contrib.usersync.UserSyncConnector;
 
 import com.xpn.xwiki.objects.BaseObject;
 
-import com.retrofit.Builder;
+import retrofit2.Retrofit.Builder;
 
 /**
  * {@link UserSyncConnector} implementation for Discourse.
