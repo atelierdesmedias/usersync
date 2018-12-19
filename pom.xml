@@ -52,6 +52,10 @@
       <id>tmortagne</id>
       <name>Thomas Mortagne</name>
     </developer>
+    <developer>
+      <id>martindelille</id>
+      <name>Martin Delille</name>
+    </developer>
   </developers>
   <modules>
     <module>usersync-api</module>
@@ -85,4 +89,11 @@
       </snapshots>
     </pluginRepository>
   </pluginRepositories>
+  <dependencies>
+    <dependency>
+      <groupId>com.squareup.retrofit2</groupId>
+      <artifactId>retrofit</artifactId>
+      <version>2.5.0</version>
+    </dependency>
+  </dependencies>
 </project>

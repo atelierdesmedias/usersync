@@ -29,9 +29,11 @@ import org.xwiki.contrib.usersync.UserSyncConnector;
 
 import com.xpn.xwiki.objects.BaseObject;
 
+import com.retrofit.Builder;
+
 /**
  * {@link UserSyncConnector} implementation for Discourse.
- * 
+ *
  * @version $Id$
  */
 @Component
@@ -40,7 +42,7 @@ import com.xpn.xwiki.objects.BaseObject;
 public class DiscourseUserSyncConnector implements UserSyncConnector
 {
     private static final String PREFIX_CONFIGURATION = "usersync.discourse.";
-    
+
     private static final String CONFIGURATION_URL = PREFIX_CONFIGURATION + "url";
 
     @Inject
