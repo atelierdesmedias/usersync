@@ -67,6 +67,12 @@ public class DiscourseUserSyncConnectorTest
     }
 
     @Test
+    public void createUser() throws ComponentLookupException
+    {
+        // Call the component
+        this.mocker.getComponentUnderTest().createUser(this.newUser);
+    }
+
     public void modifyUser() throws ComponentLookupException
     {
         // Modify the user

@@ -19,6 +19,8 @@
  */
 package org.xwiki.contrib.usersync.discourse.internal;
 
+import java.util.List;
+
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -29,7 +31,11 @@ import org.xwiki.contrib.usersync.UserSyncConnector;
 
 import com.xpn.xwiki.objects.BaseObject;
 
+import retrofit2.Retrofit;
 import retrofit2.Retrofit.Builder;
+import retrofit2.Call;
+
+import org.xwiki.contrib.usersync.discourse.internal.DiscourseService;
 
 /**
  * {@link UserSyncConnector} implementation for Discourse.
@@ -44,6 +50,7 @@ public class DiscourseUserSyncConnector implements UserSyncConnector
     private static final String PREFIX_CONFIGURATION = "usersync.discourse.";
 
     private static final String CONFIGURATION_URL = PREFIX_CONFIGURATION + "url";
+    private static final String API_KEY = PREFIX_CONFIGURATION + "api_key";
 
     @Inject
     private ConfigurationSource configuration;
@@ -59,8 +66,19 @@ public class DiscourseUserSyncConnector implements UserSyncConnector
 
         // Get the URL of the discourse server to synchronize with
         String discourseURL = this.configuration.getProperty(CONFIGURATION_URL);
+        String discourseApiKey = this.configuration.getProperty(API_KEY);
 
-        // TODO
+        Retrofit retrofit = new Retrofit.Builder()
+            .baseUrl("https://api.github.com/")
+            .build();
+
+        DiscourseService service = retrofit.create(DiscourseService.class);
+        Call<List<Repo>> repos = service.listRepos("martindelille");
+
+
+        System.out.println("url");
+        System.out.println(discourseURL);
+        System.out.println("end");
     }
 
     @Override
