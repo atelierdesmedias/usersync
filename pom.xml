@@ -107,10 +107,5 @@
       <artifactId>converter-gson</artifactId>
       <version>latest.version</version>
     </dependency>
-    <dependency>
-      <groupId>org.simpleframework</groupId>
-      <artifactId>simple-xml</artifactId>
-      <version>2.7.1</version>
-    </dependency>
   </dependencies>
 </project>
