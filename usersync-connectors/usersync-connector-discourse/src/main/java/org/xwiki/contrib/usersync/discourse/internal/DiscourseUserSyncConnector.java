@@ -58,6 +58,22 @@ public class DiscourseUserSyncConnector implements UserSyncConnector
     @Inject
     private ConfigurationSource configuration;
 
+    private Retrofit retrofit;
+    private DiscourseService service;
+
+    public DiscourseUserSyncConnector() {
+        // Get the URL of the discourse server to synchronize with
+        String discourseURL = this.configuration.getProperty(CONFIGURATION_URL);
+        String discourseApiKey = this.configuration.getProperty(API_KEY);
+
+        retrofit = new Retrofit.Builder()
+            .baseUrl("https://jsonplaceholder.typicode.com/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build();
+
+        service = retrofit.create(DiscourseService.class);
+    }
+
     @Override
     public void createUser(BaseObject user)
     {
@@ -67,16 +83,6 @@ public class DiscourseUserSyncConnector implements UserSyncConnector
         // Get the user mail
         String mail = user.getStringValue("email");
 
-        // Get the URL of the discourse server to synchronize with
-        String discourseURL = this.configuration.getProperty(CONFIGURATION_URL);
-        String discourseApiKey = this.configuration.getProperty(API_KEY);
-
-        Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl("https://jsonplaceholder.typicode.com/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build();
-
-        DiscourseService service = retrofit.create(DiscourseService.class);
         Call<List<Post>> call = service.getPosts();
 
         try {
