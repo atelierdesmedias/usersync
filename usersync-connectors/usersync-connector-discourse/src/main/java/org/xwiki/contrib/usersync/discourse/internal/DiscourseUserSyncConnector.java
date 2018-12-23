@@ -20,6 +20,7 @@
 package org.xwiki.contrib.usersync.discourse.internal;
 
 import java.util.List;
+import java.io.IOException;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -34,6 +35,7 @@ import com.xpn.xwiki.objects.BaseObject;
 import retrofit2.Retrofit;
 import retrofit2.Retrofit.Builder;
 import retrofit2.Call;
+import retrofit2.Response;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import org.xwiki.contrib.usersync.discourse.internal.DiscourseService;
@@ -75,12 +77,22 @@ public class DiscourseUserSyncConnector implements UserSyncConnector
             .build();
 
         DiscourseService service = retrofit.create(DiscourseService.class);
-        Call<List<Post>> posts = service.getPosts();
+        Call<List<Post>> call = service.getPosts();
 
-
-        System.out.println("url");
-        System.out.println(discourseURL);
-        System.out.println("end");
+        try {
+            Response<List<Post>> response = call.execute();
+            if(response.isSuccessful()) {
+                System.out.println("succeed!");
+                List<Post> posts = response.body();
+                for(Post post : posts) {
+                    System.out.println(post.getId() + " / " + post.getTitle());
+                }
+            } else {
+                System.out.println("Code: " + response.code());
+            }
+        } catch (IOException exception) {
+            System.out.println(exception.getMessage());
+        }
     }
 
     @Override
