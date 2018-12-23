@@ -34,6 +34,7 @@ import com.xpn.xwiki.objects.BaseObject;
 import retrofit2.Retrofit;
 import retrofit2.Retrofit.Builder;
 import retrofit2.Call;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 import org.xwiki.contrib.usersync.discourse.internal.DiscourseService;
 
@@ -69,11 +70,12 @@ public class DiscourseUserSyncConnector implements UserSyncConnector
         String discourseApiKey = this.configuration.getProperty(API_KEY);
 
         Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl("https://api.github.com/")
+            .baseUrl("https://jsonplaceholder.typicode.com/")
+            .addConvertFactory(GsonConverterFactory.create())
             .build();
 
         DiscourseService service = retrofit.create(DiscourseService.class);
-        Call<List<Repo>> repos = service.listRepos("martindelille");
+        Call<List<Post>> posts = service.getPosts();
 
 
         System.out.println("url");

@@ -65,6 +65,13 @@
   <!-- The repository where to get XWiki dependencies -->
   <repositories>
     <repository>
+      <id>central</id>
+      <url>http://repo1.maven.org/maven2</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+    <repository>
       <id>xwiki-releases</id>
       <name>XWiki Nexus Releases Repository Proxy</name>
       <url>http://nexus.xwiki.org/nexus/content/groups/public</url>
@@ -94,6 +101,11 @@
       <groupId>com.squareup.retrofit2</groupId>
       <artifactId>retrofit</artifactId>
       <version>2.5.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.squareup.retrofit2</groupId>
+      <artifactId>converter-gson</artifactId>
+      <version>latest.version</version>
     </dependency>
     <dependency>
       <groupId>org.simpleframework</groupId>
