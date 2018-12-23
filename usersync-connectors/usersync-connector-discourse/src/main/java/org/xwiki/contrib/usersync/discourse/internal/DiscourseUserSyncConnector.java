@@ -71,7 +71,7 @@ public class DiscourseUserSyncConnector implements UserSyncConnector
 
         Retrofit retrofit = new Retrofit.Builder()
             .baseUrl("https://jsonplaceholder.typicode.com/")
-            .addConvertFactory(GsonConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create())
             .build();
 
         DiscourseService service = retrofit.create(DiscourseService.class);

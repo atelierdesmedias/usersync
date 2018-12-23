@@ -1,6 +1,6 @@
 package org.xwiki.contrib.usersync.discourse.internal;
 
-import com.google.json.annotation.SerializedName;
+import com.google.gson.annotations.SerializedName;
 
 public class Post {
     private int userId;
@@ -13,7 +13,7 @@ public class Post {
     private String text;
 
     public int getUserId() {
-        return d;
+        return userId;
     }
 
     public int getId() {
