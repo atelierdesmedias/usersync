@@ -53,21 +53,26 @@ public class DiscourseUserSyncConnector implements UserSyncConnector
     private static final String PREFIX_CONFIGURATION = "usersync.discourse.";
 
     private static final String CONFIGURATION_URL = PREFIX_CONFIGURATION + "url";
-    private static final String API_KEY = PREFIX_CONFIGURATION + "api_key";
+    private static final String CONFIGURATION_API_KEY = PREFIX_CONFIGURATION + "api_key";
+    private static final String CONFIGURATION_API_USER = PREFIX_CONFIGURATION + "api_user";
 
     @Inject
     private ConfigurationSource configuration;
 
     private Retrofit retrofit;
     private DiscourseService service;
+    String discourseURL;
+    String discourseApiKey;
+    String discourseApiUser;
 
     public DiscourseUserSyncConnector() {
         // Get the URL of the discourse server to synchronize with
-        String discourseURL = this.configuration.getProperty(CONFIGURATION_URL);
-        String discourseApiKey = this.configuration.getProperty(API_KEY);
+        discourseURL = this.configuration.getProperty(CONFIGURATION_URL);
+        discourseApiKey = this.configuration.getProperty(CONFIGURATION_API_KEY);
+        discourseApiUser = this.configuration.getProperty(CONFIGURATION_API_USER);
 
         retrofit = new Retrofit.Builder()
-            .baseUrl("https://jsonplaceholder.typicode.com/")
+            .baseUrl(discourseURL)
             .addConverterFactory(GsonConverterFactory.create())
             .build();
 
@@ -75,24 +80,16 @@ public class DiscourseUserSyncConnector implements UserSyncConnector
     }
 
     @Override
-    public void createUser(BaseObject user)
-    {
-        // Get the user login
-        String userId = user.getReference().getName();
+    public void getUser(String userId) {
+        Call<GetUserResponse> call = service.getUser(userId, discourseApiKey, discourseApiUser);
 
-        // Get the user mail
-        String mail = user.getStringValue("email");
-
-        Call<List<Post>> call = service.getPosts();
-
+        System.out.println("calling get user");
         try {
-            Response<List<Post>> response = call.execute();
+            Response<GetUserResponse> response = call.execute();
             if(response.isSuccessful()) {
                 System.out.println("succeed!");
-                List<Post> posts = response.body();
-                for(Post post : posts) {
-                    System.out.println(post.getId() + " / " + post.getTitle());
-                }
+                GetUserResponse getUserResponse = response.body();
+                System.out.println("Name: " + getUserResponse.getUser().getName());
             } else {
                 System.out.println("Code: " + response.code());
             }

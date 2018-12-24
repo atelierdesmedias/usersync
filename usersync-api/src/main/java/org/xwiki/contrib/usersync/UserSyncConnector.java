@@ -31,6 +31,7 @@ import com.xpn.xwiki.objects.BaseObject;
 @Role
 public interface UserSyncConnector
 {
+    void getUser(String userId);
     /**
      * @param user the object containing the metadata of the new user
      */
