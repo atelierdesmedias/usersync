@@ -9,6 +9,6 @@ import org.xwiki.contrib.usersync.discourse.internal.GetUserResponse;
 
 public interface DiscourseService {
   @GET("users/{username}.json")
-  Call<GetUserResponse> getUser(@Path("username") String username, @Query("api_key") String apiKey, @Query("api_user") String apiUser);
+  Call<GetUserResponse> getUser(@Path("username") String username, @Query("api_key") String apiKey, @Query("api_username") String apiUsername);
 }
 

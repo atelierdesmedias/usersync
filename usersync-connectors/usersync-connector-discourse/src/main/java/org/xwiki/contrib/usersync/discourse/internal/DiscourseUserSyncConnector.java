@@ -57,7 +57,7 @@ public class DiscourseUserSyncConnector implements UserSyncConnector
 
     private static final String CONFIGURATION_URL = PREFIX_CONFIGURATION + "url";
     private static final String CONFIGURATION_API_KEY = PREFIX_CONFIGURATION + "api_key";
-    private static final String CONFIGURATION_API_USER = PREFIX_CONFIGURATION + "api_user";
+    private static final String CONFIGURATION_API_USERNAME = PREFIX_CONFIGURATION + "api_username";
 
     @Inject
     private ConfigurationSource configuration;
@@ -69,13 +69,13 @@ public class DiscourseUserSyncConnector implements UserSyncConnector
     private DiscourseService service;
     String discourseURL;
     String discourseApiKey;
-    String discourseApiUser;
+    String discourseApiUsername;
 
     public DiscourseUserSyncConnector() {
         // Get the URL of the discourse server to synchronize with
         discourseURL = this.configuration.getProperty(CONFIGURATION_URL);
         discourseApiKey = this.configuration.getProperty(CONFIGURATION_API_KEY);
-        discourseApiUser = this.configuration.getProperty(CONFIGURATION_API_USER);
+        discourseApiUsername = this.configuration.getProperty(CONFIGURATION_API_USERNAME);
 
         logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -93,7 +93,7 @@ public class DiscourseUserSyncConnector implements UserSyncConnector
 
     @Override
     public void getUser(String userId) {
-        Call<GetUserResponse> call = service.getUser(userId, discourseApiKey, discourseApiUser);
+        Call<GetUserResponse> call = service.getUser(userId, discourseApiKey, discourseApiUsername);
 
         System.out.println("calling get user");
         try {
