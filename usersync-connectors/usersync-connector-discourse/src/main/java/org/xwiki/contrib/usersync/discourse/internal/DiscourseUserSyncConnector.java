@@ -77,9 +77,15 @@ public class DiscourseUserSyncConnector implements UserSyncConnector
         discourseApiKey = this.configuration.getProperty(CONFIGURATION_API_KEY);
         discourseApiUser = this.configuration.getProperty(CONFIGURATION_API_USER);
 
+        logging = new HttpLoggingInterceptor();
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+        httpClient = new OkHttpClient.Builder();
+        httpClient.addInterceptor(logging);
+
         retrofit = new Retrofit.Builder()
             .baseUrl(discourseURL)
             .addConverterFactory(GsonConverterFactory.create())
+            .client(httpClient.build())
             .build();
 
         service = retrofit.create(DiscourseService.class);
