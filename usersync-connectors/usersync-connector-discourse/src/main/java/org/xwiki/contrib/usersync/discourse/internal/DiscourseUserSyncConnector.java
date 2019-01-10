@@ -32,6 +32,9 @@ import org.xwiki.contrib.usersync.UserSyncConnector;
 
 import com.xpn.xwiki.objects.BaseObject;
 
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+
 import retrofit2.Retrofit;
 import retrofit2.Retrofit.Builder;
 import retrofit2.Call;
@@ -58,6 +61,9 @@ public class DiscourseUserSyncConnector implements UserSyncConnector
 
     @Inject
     private ConfigurationSource configuration;
+
+    HttpLoggingInterceptor logging;
+    OkHttpClient.Builder httpClient;
 
     private Retrofit retrofit;
     private DiscourseService service;
