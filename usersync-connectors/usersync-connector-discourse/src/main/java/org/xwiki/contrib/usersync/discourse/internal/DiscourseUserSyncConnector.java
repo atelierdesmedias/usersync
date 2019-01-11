@@ -29,6 +29,7 @@ import javax.inject.Singleton;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.configuration.ConfigurationSource;
 import org.xwiki.contrib.usersync.UserSyncConnector;
+import org.xwiki.contrib.usersync.UserSyncException;
 
 import com.xpn.xwiki.objects.BaseObject;
 
@@ -95,7 +96,6 @@ public class DiscourseUserSyncConnector implements UserSyncConnector
     public void getUser(String userId) {
         Call<GetUserResponse> call = service.getUser(userId, discourseApiKey, discourseApiUsername);
 
-        System.out.println("calling get user");
         try {
             Response<GetUserResponse> response = call.execute();
             if(response.isSuccessful()) {
@@ -104,6 +104,45 @@ public class DiscourseUserSyncConnector implements UserSyncConnector
                 System.out.println("Name: " + getUserResponse.getUser().getName());
             } else {
                 System.out.println("Code: " + response.code());
+            }
+        } catch (IOException exception) {
+            System.out.println(exception.getMessage());
+        }
+    }
+
+    @Override
+    public void createUser(BaseObject userObject) throws UserSyncException {
+        // Get the user login
+        String userId = userObject.getStringValue("id");
+
+        // Get the user email
+        String email = userObject.getStringValue("email");
+
+        // Get the user password
+        String password = userObject.getStringValue("password");
+
+        // Get the user name
+        String name = userObject.getStringValue("name");
+
+        System.out.printf("creating user: %s / %s / %s / %s\n", userId, email, password, name);
+
+        User user = new User(userId, name, email, password);
+
+        Call<CreateUserResponse> call = service.createUser(user, discourseApiKey, discourseApiUsername);
+
+        try {
+            Response<CreateUserResponse> response = call.execute();
+            if(response.isSuccessful()) {
+                System.out.println("succeed!");
+                CreateUserResponse createUserResponse = response.body();
+                if (createUserResponse.getSuccess()) {
+                    System.out.println("Success creating user");
+                } else {
+                    throw new UserSyncException(createUserResponse.getMessage());
+                }
+            } else {
+                System.out.println("Code: " + response.code());
+                throw new UserSyncException("Bad response code:" + response.code());
             }
         } catch (IOException exception) {
             System.out.println(exception.getMessage());

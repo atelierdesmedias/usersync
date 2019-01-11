@@ -31,20 +31,20 @@ import com.xpn.xwiki.objects.BaseObject;
 @Role
 public interface UserSyncConnector
 {
-    void getUser(String userId);
+    void getUser(String userId) throws UserSyncException;
     /**
      * @param user the object containing the metadata of the new user
      */
-    void createUser(BaseObject user);
+    void createUser(BaseObject user) throws UserSyncException;
 
     /**
      * @param previousUser the object containing the previous metadata of the user
      * @param previousUser the object containing the new metadata of the user
      */
-    void modifyUser(BaseObject previousUser, BaseObject newUser);
+    void modifyUser(BaseObject previousUser, BaseObject newUser) throws UserSyncException;
 
     /**
      * @param deletedUser the object containing the metadata of the deleted user
      */
-    void deleteUser(BaseObject deletedUser);
+    void deleteUser(BaseObject deletedUser) throws UserSyncException;
 }

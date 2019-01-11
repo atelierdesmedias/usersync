@@ -22,8 +22,10 @@ package org.xwiki.contrib.usersync.discourse.internal;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.Assert;
 import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.contrib.usersync.UserSyncConnector;
+import org.xwiki.contrib.usersync.UserSyncException;
 import org.xwiki.model.reference.DocumentReference;
 import org.xwiki.model.reference.LocalDocumentReference;
 import org.xwiki.test.mockito.MockitoComponentMockingRule;
@@ -57,7 +59,10 @@ public class DiscourseUserSyncConnectorTest
         this.newUser = new BaseObject();
         this.newUser.setXClassReference(new LocalDocumentReference("XWiki", "XWikiUsers"));
 
-        this.newUser.setStringValue("email", "mail@domain.com");
+        this.newUser.setStringValue("id", "SergeGainsbourg");
+        this.newUser.setStringValue("email", "martin@phonations.com");
+        this.newUser.setStringValue("password", "abcdefgh1234");
+        this.newUser.setStringValue("name", "Serge Gainsbourg");
 
         userDocument.addXObject(this.newUser);
 
@@ -66,17 +71,25 @@ public class DiscourseUserSyncConnectorTest
         userDocument.addXObject(this.previousUser);
     }
 
-    @Test
     public void getUser() throws ComponentLookupException
     {
-        // Call the component
-        this.mocker.getComponentUnderTest().getUser("ThomasMortagne");
+        try {
+            // Call the component
+            this.mocker.getComponentUnderTest().getUser("ThomasMortagne");
+        } catch (UserSyncException exception) {
+            Assert.fail(exception.getMessage());
+        }
     }
 
+    @Test
     public void createUser() throws ComponentLookupException
     {
-        // Call the component
-        this.mocker.getComponentUnderTest().createUser(this.newUser);
+        try {
+            // Call the component
+            this.mocker.getComponentUnderTest().createUser(this.newUser);
+        } catch (UserSyncException exception) {
+            Assert.fail(exception.getMessage());
+        }
     }
 
     public void modifyUser() throws ComponentLookupException
@@ -84,9 +97,11 @@ public class DiscourseUserSyncConnectorTest
         // Modify the user
         this.newUser.setStringValue("email", "differentmail@domain.com");
 
-        // Call the component
-        this.mocker.getComponentUnderTest().modifyUser(this.previousUser, this.newUser);
-
-        // TODO
+        try {
+            // Call the component
+            this.mocker.getComponentUnderTest().modifyUser(this.previousUser, this.newUser);
+        } catch (UserSyncException exception) {
+            Assert.fail(exception.getMessage());
+        }
     }
 }

@@ -9,6 +9,17 @@ public class User {
 
     private String name;
 
+    private String email;
+
+    private String password;
+
+    public User(String _username, String _name, String _email, String _password) {
+        username = _username;
+        name = _name;
+        email = _email;
+        password = _password;
+    }
+
     public int getId() {
         return id;
     }
@@ -19,5 +30,13 @@ public class User {
 
     public String getName() {
         return name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPassword() {
+        return password;
     }
 }
