@@ -100,8 +100,7 @@ public class DiscourseUserSyncConnector implements UserSyncConnector
             Response<GetUserResponse> response = call.execute();
             if(response.isSuccessful()) {
                 System.out.println("succeed!");
-                GetUserResponse getUserResponse = response.body();
-                System.out.println("Name: " + getUserResponse.getUser().getName());
+                System.out.println("Name: " + response.body().getUser().getName());
             } else {
                 System.out.println("Code: " + response.code());
             }
@@ -126,9 +125,9 @@ public class DiscourseUserSyncConnector implements UserSyncConnector
 
         System.out.printf("creating user: %s / %s / %s / %s\n", userId, email, password, name);
 
-        User user = new User(userId, name, email, password);
+        CreateUserBody createUserBody = new CreateUserBody(userId, name, email, password);
 
-        Call<CreateUserResponse> call = service.createUser(user, discourseApiKey, discourseApiUsername);
+        Call<CreateUserResponse> call = service.createUser(createUserBody, discourseApiKey, discourseApiUsername);
 
         try {
             Response<CreateUserResponse> response = call.execute();
@@ -136,7 +135,8 @@ public class DiscourseUserSyncConnector implements UserSyncConnector
                 System.out.println("succeed!");
                 CreateUserResponse createUserResponse = response.body();
                 if (createUserResponse.getSuccess()) {
-                    System.out.println("Success creating user");
+                    System.out.println("Success creating user with id:" + createUserResponse.getUserId());
+                    userObject.setIntValue("id", createUserResponse.getUserId());
                 } else {
                     throw new UserSyncException(createUserResponse.getMessage());
                 }
@@ -150,14 +150,49 @@ public class DiscourseUserSyncConnector implements UserSyncConnector
     }
 
     @Override
-    public void modifyUser(BaseObject previousUser, BaseObject newUser)
+    public void modifyUser(BaseObject previousUser, BaseObject newUser) throws UserSyncException
     {
         // TODO
     }
 
     @Override
-    public void deleteUser(BaseObject deletedUser)
+    public void deleteUser(BaseObject userObject) throws UserSyncException
     {
-        // TODO
+        // Get the user login
+        String userName = userObject.getStringValue("id");
+
+        System.out.printf("deleting user: %s\n", userName);
+
+        Call<GetUserResponse> getUserResponseCall = service.getUser(userName, discourseApiKey, discourseApiUsername);
+
+
+
+        try {
+            Response<GetUserResponse> getUserResponse = getUserResponseCall.execute();
+            if (getUserResponse.isSuccessful()) {
+                System.out.printf("user name is " + getUserResponse.body().getUser().getEmail());
+                Integer userId = getUserResponse.body().getUser().getId();
+                System.out.printf("user id is " + userId);
+                Call<DeleteUserResponse> deleteUserResponseCall = service.deleteUser(userId, discourseApiKey, discourseApiUsername);
+
+                Response<DeleteUserResponse> deleteUserResponse = deleteUserResponseCall.execute();
+                if(deleteUserResponse.isSuccessful()) {
+                    System.out.println("succeed!");
+                    if (deleteUserResponse.body().getDeleted()) {
+                        System.out.println("Success deleting user");
+                    } else {
+                        throw new UserSyncException("Failed deleting user");
+                    }
+                } else {
+                    System.out.println("Code: " + deleteUserResponse.code());
+                    throw new UserSyncException("Bad response code for deleteUser:" + deleteUserResponse.code());
+                }
+            } else {
+                System.out.println("Code: " + getUserResponse.code());
+                throw new UserSyncException("Bad response code for getUser:" + getUserResponse.code());
+            }
+        } catch (IOException exception) {
+            System.out.println(exception.getMessage());
+        }
     }
 }

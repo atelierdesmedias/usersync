@@ -13,16 +13,7 @@ public class User {
 
     private String password;
 
-    public User(String _username, String _name, String _email, String _password) {
-        username = _username;
-        name = _name;
-        email = _email;
-        password = _password;
-    }
-
-    public int getId() {
-        return id;
-    }
+    public int getId() { return id; }
 
     public String getUsername() {
         return username;

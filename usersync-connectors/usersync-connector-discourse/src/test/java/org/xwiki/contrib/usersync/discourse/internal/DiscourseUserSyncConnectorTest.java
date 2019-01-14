@@ -71,6 +71,7 @@ public class DiscourseUserSyncConnectorTest
         userDocument.addXObject(this.previousUser);
     }
 
+    @Test
     public void getUser() throws ComponentLookupException
     {
         try {
@@ -100,6 +101,17 @@ public class DiscourseUserSyncConnectorTest
         try {
             // Call the component
             this.mocker.getComponentUnderTest().modifyUser(this.previousUser, this.newUser);
+        } catch (UserSyncException exception) {
+            Assert.fail(exception.getMessage());
+        }
+    }
+
+    @Test
+    public void deleteUser() throws ComponentLookupException
+    {
+        try {
+            // Call the component
+            this.mocker.getComponentUnderTest().deleteUser(this.newUser);
         } catch (UserSyncException exception) {
             Assert.fail(exception.getMessage());
         }
