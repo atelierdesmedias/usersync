@@ -93,23 +93,6 @@ public class DiscourseUserSyncConnector implements UserSyncConnector
     }
 
     @Override
-    public void getUser(String userId) {
-        Call<GetUserResponse> call = service.getUser(userId, discourseApiKey, discourseApiUsername);
-
-        try {
-            Response<GetUserResponse> response = call.execute();
-            if(response.isSuccessful()) {
-                System.out.println("succeed!");
-                System.out.println("Name: " + response.body().getUser().getName());
-            } else {
-                System.out.println("Code: " + response.code());
-            }
-        } catch (IOException exception) {
-            System.out.println(exception.getMessage());
-        }
-    }
-
-    @Override
     public void createUser(BaseObject userObject) throws UserSyncException {
         // Get the user login
         String userId = userObject.getStringValue("id");
