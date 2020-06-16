@@ -27,6 +27,8 @@ import javax.inject.Named;
 import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
+import org.xwiki.component.phase.Initializable;
+import org.xwiki.component.phase.InitializationException;
 import org.xwiki.configuration.ConfigurationSource;
 import org.xwiki.contrib.usersync.UserSyncConnector;
 import org.xwiki.contrib.usersync.UserSyncException;
@@ -52,7 +54,7 @@ import org.xwiki.contrib.usersync.discourse.internal.DiscourseService;
 @Component
 @Singleton
 @Named("discourse")
-public class DiscourseUserSyncConnector implements UserSyncConnector
+public class DiscourseUserSyncConnector implements UserSyncConnector, Initializable
 {
     private static final String PREFIX_CONFIGURATION = "usersync.discourse.";
 
@@ -72,7 +74,9 @@ public class DiscourseUserSyncConnector implements UserSyncConnector
     String discourseApiKey;
     String discourseApiUsername;
 
-    public DiscourseUserSyncConnector() {
+    @Override
+    public void initialize() throws InitializationException
+    {
         // Get the URL of the discourse server to synchronize with
         discourseURL = this.configuration.getProperty(CONFIGURATION_URL);
         discourseApiKey = this.configuration.getProperty(CONFIGURATION_API_KEY);
