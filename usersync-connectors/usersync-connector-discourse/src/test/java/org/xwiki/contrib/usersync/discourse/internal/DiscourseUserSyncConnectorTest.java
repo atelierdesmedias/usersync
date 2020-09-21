@@ -19,15 +19,17 @@
  */
 package org.xwiki.contrib.usersync.discourse.internal;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.Assert;
 import org.xwiki.component.manager.ComponentLookupException;
+import org.xwiki.configuration.internal.MemoryConfigurationSource;
 import org.xwiki.contrib.usersync.UserSyncConnector;
 import org.xwiki.contrib.usersync.UserSyncException;
 import org.xwiki.model.reference.DocumentReference;
 import org.xwiki.model.reference.LocalDocumentReference;
+import org.xwiki.test.annotation.AfterComponent;
 import org.xwiki.test.mockito.MockitoComponentMockingRule;
 
 import com.xpn.xwiki.doc.XWikiDocument;
@@ -50,6 +52,12 @@ public class DiscourseUserSyncConnectorTest
     private BaseObject newUser;
 
     private BaseObject previousUser;
+    private MemoryConfigurationSource configuration = oldcore.getConfigurationSource();
+
+    @AfterComponent
+    public void afterComponent() throws Exception {
+    	configuration = mocker.registerMemoryConfigurationSource();
+    }
 
     @Before
     public void before()

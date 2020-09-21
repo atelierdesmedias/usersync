@@ -11,10 +11,13 @@ public class CreateUserBody {
 
     private String password;
 
+    private Boolean active;
+
     public CreateUserBody(String _username, String _name, String _email, String _password) {
         username = _username;
         name = _name;
         email = _email;
         password = _password;
+        active = true;
     }
 }

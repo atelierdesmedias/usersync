@@ -19,7 +19,6 @@
  */
 package org.xwiki.contrib.usersync.discourse.internal;
 
-import java.util.List;
 import java.io.IOException;
 
 import javax.inject.Inject;
@@ -37,14 +36,10 @@ import com.xpn.xwiki.objects.BaseObject;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
-
-import retrofit2.Retrofit;
-import retrofit2.Retrofit.Builder;
 import retrofit2.Call;
 import retrofit2.Response;
+import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-
-import org.xwiki.contrib.usersync.discourse.internal.DiscourseService;
 
 /**
  * {@link UserSyncConnector} implementation for Discourse.
@@ -58,9 +53,9 @@ public class DiscourseUserSyncConnector implements UserSyncConnector, Initializa
 {
     private static final String PREFIX_CONFIGURATION = "usersync.discourse.";
 
-    private static final String CONFIGURATION_URL = PREFIX_CONFIGURATION + "url";
-    private static final String CONFIGURATION_API_KEY = PREFIX_CONFIGURATION + "api_key";
-    private static final String CONFIGURATION_API_USERNAME = PREFIX_CONFIGURATION + "api_username";
+    public static final String CONFIGURATION_URL = PREFIX_CONFIGURATION + "url";
+    public static final String CONFIGURATION_API_KEY = PREFIX_CONFIGURATION + "api_key";
+    public static final String CONFIGURATION_API_USERNAME = PREFIX_CONFIGURATION + "api_username";
 
     @Inject
     private ConfigurationSource configuration;
