@@ -128,7 +128,7 @@ public class DiscourseUserSyncConnector implements UserSyncConnector, Initializa
             }
         } catch (IOException exception) {
             System.out.println(exception.getMessage());
-            throw new UserSyncException("Unknown error:" + exception.getMessage());
+            throw new UserSyncException("Unknown error", exception);
         }
     }
 
@@ -176,6 +176,7 @@ public class DiscourseUserSyncConnector implements UserSyncConnector, Initializa
             }
         } catch (IOException exception) {
             System.out.println(exception.getMessage());
+            throw new UserSyncException("Unknown error", exception);
         }
     }
 }
