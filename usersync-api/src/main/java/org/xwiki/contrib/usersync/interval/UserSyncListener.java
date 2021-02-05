@@ -27,6 +27,7 @@ import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
 import org.xwiki.contrib.usersync.UserSyncConnector;
+import org.xwiki.contrib.usersync.UserSyncException;
 import org.xwiki.model.reference.EntityReference;
 import org.xwiki.observation.AbstractEventListener;
 import org.xwiki.observation.event.Event;
@@ -80,12 +81,16 @@ public class UserSyncListener extends AbstractEventListener
         BaseObject newUser = document.getXObject(event.getReference());
         BaseObject previousUser = document.getOriginalDocument().getXObject(event.getReference());
 
-        if (event instanceof XObjectAddedEvent) {
-            connector.createUser(newUser);
-        } else if (event instanceof XObjectDeletedEvent) {
-            connector.deleteUser(previousUser);
-        } else {
-            connector.modifyUser(previousUser, newUser);
+        try {
+            if (event instanceof XObjectAddedEvent) {
+                connector.createUser(newUser);
+            } else if (event instanceof XObjectDeletedEvent) {
+                connector.deleteUser(previousUser);
+            } else {
+                connector.modifyUser(previousUser, newUser);
+            }
+        } catch (UserSyncException exception) {
+            System.out.println(exception.getMessage());
         }
     }
 }

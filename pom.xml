@@ -52,6 +52,10 @@
       <id>tmortagne</id>
       <name>Thomas Mortagne</name>
     </developer>
+    <developer>
+      <id>martindelille</id>
+      <name>Martin Delille</name>
+    </developer>
   </developers>
   <modules>
     <module>usersync-api</module>
@@ -85,4 +89,21 @@
       </snapshots>
     </pluginRepository>
   </pluginRepositories>
+  <dependencies>
+    <dependency>
+      <groupId>com.squareup.retrofit2</groupId>
+      <artifactId>retrofit</artifactId>
+      <version>2.5.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.squareup.retrofit2</groupId>
+      <artifactId>converter-gson</artifactId>
+      <version>2.5.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.squareup.okhttp3</groupId>
+      <artifactId>logging-interceptor</artifactId>
+      <version>3.12.0</version>
+    </dependency>
+  </dependencies>
 </project>
